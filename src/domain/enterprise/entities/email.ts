@@ -12,8 +12,16 @@ export interface EmailProps {
 }
 
 export class Email extends Entity<EmailProps> {
+  get title() {
+    return this.props.title
+  }
+
   get createdAt() {
     return this.props.createdAt
+  }
+
+  get content() {
+    return this.props.content
   }
 
   get isSeen() {

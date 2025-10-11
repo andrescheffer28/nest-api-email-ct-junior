@@ -6,7 +6,7 @@ export interface UserProps {
   name: string
   email: string
   password: string
-  profileImage?: string
+  profileImage?: string | null
 }
 
 export class User extends Entity<UserProps> {
@@ -26,7 +26,7 @@ export class User extends Entity<UserProps> {
     return this.props.profileImage
   }
 
-  set profileImage(profileImage: string | undefined) {
+  set profileImage(profileImage: string | undefined | null) {
     this.props.profileImage = profileImage
   }
 
