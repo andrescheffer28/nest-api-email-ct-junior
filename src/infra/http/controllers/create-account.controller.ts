@@ -4,7 +4,6 @@ import {
   Body,
   ConflictException,
   Controller,
-  HttpCode,
   Post,
   UsePipes,
 } from '@nestjs/common'
@@ -20,7 +19,6 @@ export const createAccountSchema = z
     email: z.email(),
     password: z.string(),
   })
-  .required()
 
 type CreateAccountBodySchema = z.infer<typeof createAccountSchema>
 
@@ -34,7 +32,6 @@ export class CreateAccountController {
   @Post()
   @UsePipes(new ZodValidationPipe(createAccountSchema))
   async handle(@Body() body: CreateAccountBodySchema) {
-    console.log('>>> O CONTROLLER RECEBEU A REQUISIÇÃO:', body);
     const { name, profileImage, email, password } = body
     const result = await this.createUser.execute({
       name,
