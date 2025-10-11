@@ -3,6 +3,8 @@ import { CreateAccountController } from "./controllers/create-account.controller
 import { DataBaseModule } from "../database/database.module";
 import { RegisterUserUseCase } from "@/domain/application/use-cases/register-user";
 import { CryptographyModule } from "../cryptography/cryptography.module";
+import { AuthenticateController } from "./controllers/authenticate.controller";
+import { AuthenticateUserUseCase } from "@/domain/application/use-cases/authenticate-user";
 
 @Module({
   imports: [
@@ -11,9 +13,11 @@ import { CryptographyModule } from "../cryptography/cryptography.module";
   ],
   controllers: [
     CreateAccountController,
+    AuthenticateController,
   ],
   providers: [
     RegisterUserUseCase,
+    AuthenticateUserUseCase,
   ]
 })
 export class HTTPModule { }
