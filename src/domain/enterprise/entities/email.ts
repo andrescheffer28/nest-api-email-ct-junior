@@ -1,50 +1,49 @@
-import { Entity } from "@/core/entities/entity"
-import { Optional } from "@/core/entities/types/optional"
-import { UniqueEntityID } from "@/core/entities/unique-entity-id"
+import { Entity } from '@/core/entities/entity'
+import { Optional } from '@/core/entities/types/optional'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-export interface EmailProps{
-    title: string
-    createdAt: Date 
-    content: string
-    isSeen: boolean
-    senderId: UniqueEntityID
-    receiverId: UniqueEntityID
+export interface EmailProps {
+  title: string
+  createdAt: Date
+  content: string
+  isSeen: boolean
+  senderId: UniqueEntityID
+  receiverId: UniqueEntityID
 }
 
 export class Email extends Entity<EmailProps> {
+  get createdAt() {
+    return this.props.createdAt
+  }
 
-    get createdAt() {
-        return this.props.createdAt
-    }
+  get isSeen() {
+    return this.props.isSeen
+  }
 
-    get isSeen() {
-        return this.props.isSeen
-    }
+  set isSeen(isSeen: boolean) {
+    this.props.isSeen = isSeen
+  }
 
-    set isSeen(isSeen: boolean) {
-        this.props.isSeen = isSeen
-    }
+  get senderId() {
+    return this.props.senderId
+  }
 
-    get senderId() {
-        return this.props.senderId
-    }
+  get receiverId() {
+    return this.props.receiverId
+  }
 
-    get receiverId() {
-        return this.props.receiverId
-    }
-
-    static create(
-        props: Optional<EmailProps, 'createdAt' | 'isSeen'>,
-        id?: UniqueEntityID,
-    ){
-        const email = new Email(
-            {
-                ...props,
-                createdAt: props.createdAt ?? new Date(),
-                isSeen: false,
-            },
-            id,
-        )
-        return email
-    }
+  static create(
+    props: Optional<EmailProps, 'createdAt' | 'isSeen'>,
+    id?: UniqueEntityID
+  ) {
+    const email = new Email(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        isSeen: false,
+      },
+      id
+    )
+    return email
+  }
 }

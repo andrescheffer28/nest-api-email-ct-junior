@@ -1,64 +1,73 @@
-import { InMemoryEmailsRepository } from "test/repositories/in-memory-emails-repository";
-import { DeleteEmailUseCase } from "./delete-email";
-import { makeEmail } from "test/factories/make-email";
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { NotAllowedError } from "@/core/errors/errors/not-allowed-error";
+import { InMemoryEmailsRepository } from 'test/repositories/in-memory-emails-repository'
+import { DeleteEmailUseCase } from './delete-email'
+import { makeEmail } from 'test/factories/make-email'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
 let inMemoryEmailsRepository: InMemoryEmailsRepository
 let sut: DeleteEmailUseCase
 
 describe('Delete Email', () => {
-    beforeEach(() => {
-        inMemoryEmailsRepository = new InMemoryEmailsRepository
-        sut = new DeleteEmailUseCase(inMemoryEmailsRepository)
+  beforeEach(() => {
+    inMemoryEmailsRepository = new InMemoryEmailsRepository()
+    sut = new DeleteEmailUseCase(inMemoryEmailsRepository)
+  })
+
+  it('should be able to delete an email', async () => {
+    await inMemoryEmailsRepository.create(
+      makeEmail(
+        {
+          senderId: new UniqueEntityID('123456'),
+        },
+        new UniqueEntityID('email-01')
+      )
+    )
+
+    await sut.execute({
+      senderId: '123456',
+      emailId: 'email-01',
     })
 
-    it('should be able to delete an email', async () => {
-        await inMemoryEmailsRepository.create(
-            makeEmail({
-                senderId: new UniqueEntityID('123456')
-            },new UniqueEntityID('email-01'))
-        )
+    expect(inMemoryEmailsRepository.items).toHaveLength(0)
+  })
 
-        await sut.execute({
-            senderId: '123456',
-            emailId: 'email-01',
-        })
+  it('should not be able to delete an email already seen by the receiver', async () => {
+    await inMemoryEmailsRepository.create(
+      makeEmail(
+        {
+          senderId: new UniqueEntityID('123456'),
+        },
+        new UniqueEntityID('email-01')
+      )
+    )
 
-        expect(inMemoryEmailsRepository.items).toHaveLength(0)
+    inMemoryEmailsRepository.items[0].isSeen = true
+
+    const result = await sut.execute({
+      senderId: '123456',
+      emailId: 'email-01',
     })
 
-    it('should not be able to delete an email already seen by the receiver', async () => {
-        await inMemoryEmailsRepository.create(
-            makeEmail({
-                senderId: new UniqueEntityID('123456')
-            },new UniqueEntityID('email-01'))
-        )
+    expect(inMemoryEmailsRepository.items).toHaveLength(1)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+  })
 
-        inMemoryEmailsRepository.items[0].isSeen = true
+  it('should not be able to delete from another sender email ', async () => {
+    await inMemoryEmailsRepository.create(
+      makeEmail(
+        {
+          senderId: new UniqueEntityID('123456'),
+        },
+        new UniqueEntityID('email-01')
+      )
+    )
 
-        const result = await sut.execute({
-            senderId: '123456',
-            emailId: 'email-01',
-        })
-
-        expect(inMemoryEmailsRepository.items).toHaveLength(1)
-        expect(result.value).toBeInstanceOf(NotAllowedError)
+    const result = await sut.execute({
+      senderId: 'wrong',
+      emailId: 'email-01',
     })
 
-    it('should not be able to delete from another sender email ', async () => {
-        await inMemoryEmailsRepository.create(
-            makeEmail({
-                senderId: new UniqueEntityID('123456')
-            },new UniqueEntityID('email-01'))
-        )
-
-        const result = await sut.execute({
-            senderId: 'wrong',
-            emailId: 'email-01',
-        })
-
-        expect(inMemoryEmailsRepository.items).toHaveLength(1)
-        expect(result.value).toBeInstanceOf(NotAllowedError)
-    })
+    expect(inMemoryEmailsRepository.items).toHaveLength(1)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+  })
 })

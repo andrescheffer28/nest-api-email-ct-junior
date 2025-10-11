@@ -15,28 +15,28 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String
-  email String @unique
-  password String
+  id           String  @id @default(uuid())
+  name         String
+  email        String  @unique
+  password     String
   profileImage String? @map("profile_image")
 
-  sentEmails Email[] @relation("SentEmails")
+  sentEmails     Email[] @relation("SentEmails")
   receivedEmails Email[] @relation("ReceivedEmails")
 
   @@map("users")
 }
 
 model Email {
-  id String @id @default(uuid())
-  title String
-  data DateTime @default(now())
-  content String
-  isSeen Boolean @default(false) @map("is_seen")
-  senderId String @map("sender_id")
-  receiverId String @map("receiver_id")
+  id         String   @id @default(uuid())
+  title      String
+  data       DateTime @default(now())
+  content    String
+  isSeen     Boolean  @default(false) @map("is_seen")
+  senderId   String   @map("sender_id")
+  receiverId String   @map("receiver_id")
 
-  sender User @relation("SentEmails", fields: [senderId], references: [id])
+  sender   User @relation("SentEmails", fields: [senderId], references: [id])
   receiver User @relation("ReceivedEmails", fields: [receiverId], references: [id])
 
   @@map("emails")

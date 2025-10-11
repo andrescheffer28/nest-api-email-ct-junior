@@ -1,31 +1,28 @@
-import { Either, right } from "@/core/either"
-import { Email } from "@/domain/enterprise/entities/email"
-import { EmailsRepository } from "../repositories/emails-repository"
+import { Either, right } from '@/core/either'
+import { Email } from '@/domain/enterprise/entities/email'
+import { EmailsRepository } from '../repositories/emails-repository'
 
 interface FetchRecentSendedEmailsUseCaseRequest {
-    senderId: string
+  senderId: string
 }
 
 type FetchRecentSendedEmailsUseCaseResponse = Either<
-    null,
-    {
-        emails: Email[]
-    }
+  null,
+  {
+    emails: Email[]
+  }
 >
 
 export class FetchRecentSendedEmailsUseCase {
-    constructor(
-        private emailsRepository: EmailsRepository,
-    ) {}
+  constructor(private emailsRepository: EmailsRepository) {}
 
-    async execute({
-        senderId,
-    }: FetchRecentSendedEmailsUseCaseRequest): Promise<FetchRecentSendedEmailsUseCaseResponse> {
+  async execute({
+    senderId,
+  }: FetchRecentSendedEmailsUseCaseRequest): Promise<FetchRecentSendedEmailsUseCaseResponse> {
+    const emails = await this.emailsRepository.findManyBySenderId(senderId)
 
-        const emails = await this.emailsRepository.findManyBySenderId(senderId)
-        
-        return right({
-            emails,
-        })
-    }
+    return right({
+      emails,
+    })
+  }
 }
