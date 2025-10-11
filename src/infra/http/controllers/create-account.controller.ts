@@ -1,5 +1,6 @@
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
+  BadRequestException,
   Body,
   ConflictException,
   Controller,
@@ -8,19 +9,21 @@ import {
 } from '@nestjs/common'
 import z from 'zod'
 import { RegisterUserUseCase } from '@/domain/application/use-cases/register-user'
+import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error'
+import { Public } from '@/infra/auth/public'
 
 export const createAccountSchema = z
   .object({
     name: z.string(),
-    profileImage: z.string(),
+    profileImage: z.string().optional(),
     email: z.email(),
     password: z.string(),
   })
-  .required()
 
-type CreateAccount = z.infer<typeof createAccountSchema>
+type CreateAccountBodySchema = z.infer<typeof createAccountSchema>
 
-@Controller('/login')
+@Controller('/user')
+@Public()
 export class CreateAccountController {
   constructor(
     private createUser: RegisterUserUseCase,
@@ -28,9 +31,8 @@ export class CreateAccountController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(createAccountSchema))
-  async handle(@Body() body: CreateAccount) {
+  async handle(@Body() body: CreateAccountBodySchema) {
     const { name, profileImage, email, password } = body
-
     const result = await this.createUser.execute({
       name,
       email,
@@ -39,9 +41,13 @@ export class CreateAccountController {
     })
 
     if (result.isLeft()) {
-      throw new ConflictException(
-        'User with same e-mail address already exists.'
-      )
+      const error = result.value
+
+      if (error instanceof UserAlreadyExistsError) {
+        throw new ConflictException(error.message);
+      }
+
+      throw new BadRequestException(error);
     }
   }
 }
