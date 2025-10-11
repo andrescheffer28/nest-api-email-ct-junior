@@ -3,7 +3,6 @@ import { HTTPModule } from './http/http.module'
 import { ConfigModule } from '@nestjs/config'
 import { envSchema } from './env'
 import { AuthModule } from './auth/auth.module'
-import { CryptographyModule } from './cryptography/cryptography.module'
 
 @Module({
   imports: [

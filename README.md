@@ -6,3 +6,6 @@
 - npm i --save-dev vitest unplugin-swc @swc/core @vitest/coverage-v8
 - npm i vite-tsconfig-paths -D
 - npm i dotenv -D
+
+- npm i supertest -D
+- npm i @types/supertest -D
