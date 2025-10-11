@@ -1,19 +1,19 @@
 import { Module } from "@nestjs/common";
 import { CreateAccountController } from "./controllers/create-account.controller";
-import { PrismaService } from "../database/prisma/prisma.service";
-import { ConfigModule } from "@nestjs/config";
-import { envSchema } from "../env";
 import { DataBaseModule } from "../database/database.module";
+import { RegisterUserUseCase } from "@/domain/application/use-cases/register-user";
+import { CryptographyModule } from "../cryptography/cryptography.module";
 
 @Module({
   imports: [
     DataBaseModule,
-    ConfigModule.forRoot({
-      validate: env => envSchema.parse(env),
-      isGlobal: true,
-    })],
+    CryptographyModule,
+  ],
   controllers: [
     CreateAccountController,
+  ],
+  providers: [
+    RegisterUserUseCase,
   ]
 })
 export class HTTPModule { }

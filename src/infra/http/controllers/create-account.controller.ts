@@ -1,5 +1,4 @@
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import {
   Body,
   ConflictException,
@@ -8,10 +7,12 @@ import {
   UsePipes,
 } from '@nestjs/common'
 import z from 'zod'
+import { RegisterUserUseCase } from '@/domain/application/use-cases/register-user'
 
 export const createAccountSchema = z
   .object({
     name: z.string(),
+    profileImage: z.string(),
     email: z.email(),
     password: z.string(),
   })
@@ -21,31 +22,26 @@ type CreateAccount = z.infer<typeof createAccountSchema>
 
 @Controller('/login')
 export class CreateAccountController {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private createUser: RegisterUserUseCase,
+  ) { }
 
   @Post()
   @UsePipes(new ZodValidationPipe(createAccountSchema))
   async handle(@Body() body: CreateAccount) {
-    const { name, email, password } = body
+    const { name, profileImage, email, password } = body
 
-    const userWithSameEmail = await this.prisma.user.findUnique({
-      where: {
-        email,
-      },
+    const result = await this.createUser.execute({
+      name,
+      email,
+      profileImage: profileImage,
+      password,
     })
 
-    if (userWithSameEmail) {
+    if (result.isLeft()) {
       throw new ConflictException(
         'User with same e-mail address already exists.'
       )
     }
-
-    await this.prisma.user.create({
-      data: {
-        name,
-        email,
-        password,
-      },
-    })
   }
 }
