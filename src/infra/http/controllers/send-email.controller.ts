@@ -4,6 +4,7 @@ import { BadRequestException, Body, Controller, HttpCode, NotFoundException, Pos
 import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { TokenSchema } from "@/infra/auth/jwt.strategy";
+import { ResourceNotFoundError } from "@/domain/application/use-cases/errors/resource-not-found-error";
 
 const sendEmailBodySchema = z.object({
   title: z.string(),
@@ -34,7 +35,13 @@ export class SendEmailController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      if (error instanceof ResourceNotFoundError) {
+        throw new NotFoundException(error.message)
+      }
+
+      throw new BadRequestException(error)
     }
   }
 }

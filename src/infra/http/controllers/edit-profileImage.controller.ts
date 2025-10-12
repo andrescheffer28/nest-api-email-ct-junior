@@ -1,9 +1,10 @@
 import z from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
-import { BadRequestException, Body, Controller, HttpCode, Patch } from "@nestjs/common";
+import { BadRequestException, Body, Controller, HttpCode, Patch, UnauthorizedException } from "@nestjs/common";
 import { UpdateProfileImageUseCase } from "@/domain/application/use-cases/update-profile-image";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { TokenSchema } from "@/infra/auth/jwt.strategy";
+import { WrongCredentialsError } from "@/domain/application/use-cases/errors/wrong-credentials-error";
 
 const editProfileImageBodySchema = z.object({
   profileImage: z.string(),
@@ -31,7 +32,13 @@ export class EditProfileImageController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      if (error instanceof WrongCredentialsError) {
+        throw new UnauthorizedException(error.message)
+      }
+
+      throw new BadRequestException(error)
     }
   }
 }

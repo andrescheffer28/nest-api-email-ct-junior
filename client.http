@@ -25,7 +25,7 @@ Content-Type: application/json
 ###
 
 # @name update_profile_image
-PATCH {{baseUrl}}/my-image
+PATCH   {{baseUrl}}/my-image
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -56,3 +56,11 @@ Authorization: Bearer {{authToken}}
   "content": "Nao sei quantas almas tenho. Cada momento mudei",
   "emailDeDestinatario": "anddrecosttascheffer@gmail.com"
 }
+
+###
+
+# @name delete_email
+DELETE  {{baseUrl}}/email/ae088d55-c734-4112-9715-ba20c852632a
+Authorization: Bearer {{authToken}}
+
+###

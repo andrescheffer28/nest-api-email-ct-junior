@@ -11,6 +11,8 @@ import { EditUserNameController } from "./controllers/edit-userName.controller";
 import { UpdateUserNameUseCase } from "@/domain/application/use-cases/update-user-name";
 import { SendEmailController } from "./controllers/send-email.controller";
 import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
+import { DeleteEmailController } from "./controllers/delete-email.controller";
+import { DeleteEmailUseCase } from "@/domain/application/use-cases/delete-email";
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
     EditProfileImageController,
     EditUserNameController,
     SendEmailController,
+    DeleteEmailController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -30,6 +33,7 @@ import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
     UpdateProfileImageUseCase,
     UpdateUserNameUseCase,
     SendEmailUseCase,
+    DeleteEmailUseCase,
   ]
 })
 export class HTTPModule { }
