@@ -32,6 +32,8 @@ export class UpdateProfileImageUseCase {
 
     user.profileImage = profileImage
 
+    await this.usersRepository.save(user)
+
     return right({
       user,
     })

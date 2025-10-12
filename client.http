@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
+
+# @name authenticate
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "anddrecosttascheffer@gmail.com",
+  "password": "123456"
+}
+
+###
+
+# @name update_profile_image
+PATCH {{baseUrl}}/my-image
+Content-Type: application/json
+Authorization: Bearer {{{{authToken}}}}
+
+{
+  "profileImage": "nova foto"
+}
