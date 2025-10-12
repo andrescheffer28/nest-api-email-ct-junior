@@ -30,7 +30,7 @@ describe('Send Email', () => {
       title: 'Alienista',
       content: 'Email content',
       senderId: sender.id.toString(),
-      receiverId: receiver.id.toString(),
+      receiverEmail: receiver.email,
     })
 
     expect(result.isRight()).toBe(true)
@@ -48,7 +48,7 @@ describe('Send Email', () => {
       title: 'Alienista',
       content: 'Email content',
       senderId: sender.id.toString(),
-      receiverId: '123456',
+      receiverEmail: 'fernandopessoa@exemple.com',
     })
 
     expect(result.isLeft()).toBe(true)
