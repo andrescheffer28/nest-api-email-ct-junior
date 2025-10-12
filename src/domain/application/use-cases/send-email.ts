@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common'
 
 interface SendEmailUseCaseRequest {
   senderId: string
-  receiverId: string
+  receiverEmail: string
   title: string
   content: string
 }
@@ -31,9 +31,9 @@ export class SendEmailUseCase {
     title,
     content,
     senderId,
-    receiverId,
+    receiverEmail,
   }: SendEmailUseCaseRequest): Promise<SendEmailUseCaseResponse> {
-    const receiverExists = await this.usersRepository.findById(receiverId)
+    const receiverExists = await this.usersRepository.findByEmail(receiverEmail)
 
     if (!receiverExists) {
       return left(new ResourceNotFoundError())
@@ -43,7 +43,7 @@ export class SendEmailUseCase {
       title,
       content,
       senderId: new UniqueEntityID(senderId),
-      receiverId: new UniqueEntityID(receiverId),
+      receiverId: new UniqueEntityID(receiverExists.id.toString()),
       isSeen: false,
     })
 

@@ -30,7 +30,7 @@ export class SendEmailController {
       title,
       content,
       senderId,
-      receiverId: emailDeDestinatario,
+      receiverEmail: emailDeDestinatario,
     })
 
     if (result.isLeft()) {

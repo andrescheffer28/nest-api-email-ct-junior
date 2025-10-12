@@ -1,12 +1,24 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
 
+# @name create_account
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+  "name":"Fernando Pessoa",
+  "email": "fernandopessoa@gmail.com",
+  "password": "123456"
+}
+
+###
+
 # @name authenticate
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "anddrecosttascheffer@gmail.com",
+  "email": "fernandopessoa@gmail.com",
   "password": "123456"
 }
 
@@ -40,7 +52,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "Comprar clorofomio",
-  "content": "5 garrafas de 2l de cloroformio",
+  "title": "Frases",
+  "content": "Nao sei quantas almas tenho. Cada momento mudei",
   "emailDeDestinatario": "anddrecosttascheffer@gmail.com"
 }
