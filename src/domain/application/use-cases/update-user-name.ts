@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 import { User } from '@/domain/enterprise/entities/user'
 import { UsersRepository } from '../repositories/users-repository'
+import { Injectable } from '@nestjs/common'
 
 interface UpdateUserNameUseCaseRequest {
   userId: string
@@ -15,8 +16,9 @@ type UpdateUserNameUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class UpdateUserNameUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: UsersRepository) { }
 
   async execute({
     userId,
@@ -29,6 +31,8 @@ export class UpdateUserNameUseCase {
     }
 
     user.name = name
+
+    await this.usersRepository.save(user)
 
     return right({
       user,

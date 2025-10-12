@@ -4,10 +4,10 @@ import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { INestApplication } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { Test } from "@nestjs/testing"
-import { UserFactory } from "test/factories/make-user"
 import request from 'supertest'
+import { UserFactory } from "test/factories/make-user"
 
-describe('Edit Profile Image (E2E)', () => {
+describe('Edit User Name (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let userFactory: UserFactory
@@ -28,18 +28,20 @@ describe('Edit Profile Image (E2E)', () => {
     await app.init()
   })
 
-  test('[PATCH] /my-image', async () => {
-    const user = await userFactory.makePrismaUser({
-      profileImage: 'Old Profile Image',
-    })
+  test('[PATCH] /my-name', async () => {
+    const user = await userFactory.makePrismaUser(
+      {
+        profileImage: 'Old name',
+      }
+    )
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const response = await request(app.getHttpServer())
-      .patch('/my-image')
+      .patch('/my-name')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        profileImage: 'New Profile Image',
+        userName: 'Carlos Drummond',
       })
 
     expect(response.statusCode).toBe(204)
@@ -50,6 +52,6 @@ describe('Edit Profile Image (E2E)', () => {
       },
     })
 
-    expect(userOnDatabase?.profileImage).toBe('New Profile Image')
+    expect(userOnDatabase?.name).toBe('Carlos Drummond')
   })
 })

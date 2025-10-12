@@ -7,6 +7,8 @@ import { AuthenticateController } from "./controllers/authenticate.controller";
 import { AuthenticateUserUseCase } from "@/domain/application/use-cases/authenticate-user";
 import { EditProfileImageController } from "./controllers/edit-profileImage.controller";
 import { UpdateProfileImageUseCase } from "@/domain/application/use-cases/update-profile-image";
+import { EditUserNameController } from "./controllers/edit-userName.controller";
+import { UpdateUserNameUseCase } from "@/domain/application/use-cases/update-user-name";
 
 @Module({
   imports: [
@@ -17,11 +19,13 @@ import { UpdateProfileImageUseCase } from "@/domain/application/use-cases/update
     CreateAccountController,
     AuthenticateController,
     EditProfileImageController,
+    EditUserNameController,
   ],
   providers: [
     RegisterUserUseCase,
     AuthenticateUserUseCase,
     UpdateProfileImageUseCase,
+    UpdateUserNameUseCase,
   ]
 })
 export class HTTPModule { }

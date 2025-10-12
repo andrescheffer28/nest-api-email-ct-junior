@@ -15,8 +15,19 @@ Content-Type: application/json
 # @name update_profile_image
 PATCH {{baseUrl}}/my-image
 Content-Type: application/json
-Authorization: Bearer {{{{authToken}}}}
+Authorization: Bearer {{authToken}}
 
 {
-  "profileImage": "nova foto"
+  "profileImage": "nova foto 2.0"
+}
+
+###
+
+# @name update_user_name
+PATCH {{baseUrl}}/my-name
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "userName": "marcelinho"
 }
