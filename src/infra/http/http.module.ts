@@ -13,6 +13,8 @@ import { SendEmailController } from "./controllers/send-email.controller";
 import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
 import { DeleteEmailController } from "./controllers/delete-email.controller";
 import { DeleteEmailUseCase } from "@/domain/application/use-cases/delete-email";
+import { FetchRecenteReceivedEmailsController } from "./controllers/fetch-recent-received-emails.controller";
+import { EmailDetailsPresenter } from "./presenters/email-presenter-for-receiver";
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { DeleteEmailUseCase } from "@/domain/application/use-cases/delete-email"
     EditUserNameController,
     SendEmailController,
     DeleteEmailController,
+    FetchRecenteReceivedEmailsController,
+    EmailDetailsPresenter,
   ],
   providers: [
     RegisterUserUseCase,
