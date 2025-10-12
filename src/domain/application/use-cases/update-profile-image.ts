@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { User } from '@/domain/enterprise/entities/user'
 import { UsersRepository } from '../repositories/users-repository'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
+import { Injectable } from '@nestjs/common'
 
 interface UpdateProfileImageUseCaseRequest {
   userId: string
@@ -15,8 +16,9 @@ type UpdateProfileImageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class UpdateProfileImageUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: UsersRepository) { }
 
   async execute({
     userId,
