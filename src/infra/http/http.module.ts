@@ -9,6 +9,8 @@ import { EditProfileImageController } from "./controllers/edit-profileImage.cont
 import { UpdateProfileImageUseCase } from "@/domain/application/use-cases/update-profile-image";
 import { EditUserNameController } from "./controllers/edit-userName.controller";
 import { UpdateUserNameUseCase } from "@/domain/application/use-cases/update-user-name";
+import { SendEmailController } from "./controllers/send-email.controller";
+import { SendEmailUseCase } from "@/domain/application/use-cases/send-email";
 
 @Module({
   imports: [
@@ -20,12 +22,14 @@ import { UpdateUserNameUseCase } from "@/domain/application/use-cases/update-use
     AuthenticateController,
     EditProfileImageController,
     EditUserNameController,
+    SendEmailController,
   ],
   providers: [
     RegisterUserUseCase,
     AuthenticateUserUseCase,
     UpdateProfileImageUseCase,
     UpdateUserNameUseCase,
+    SendEmailUseCase,
   ]
 })
 export class HTTPModule { }

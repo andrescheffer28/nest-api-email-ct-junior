@@ -4,6 +4,7 @@ import { Email } from '@/domain/enterprise/entities/email'
 import { EmailsRepository } from '../repositories/emails-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { UsersRepository } from '../repositories/users-repository'
+import { Injectable } from '@nestjs/common'
 
 interface SendEmailUseCaseRequest {
   senderId: string
@@ -19,11 +20,12 @@ type SendEmailUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class SendEmailUseCase {
   constructor(
     private emailsRepository: EmailsRepository,
     private usersRepository: UsersRepository
-  ) {}
+  ) { }
 
   async execute({
     title,

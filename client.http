@@ -31,3 +31,16 @@ Authorization: Bearer {{authToken}}
 {
   "userName": "marcelinho"
 }
+
+###
+
+# @name send_email
+POST {{baseUrl}}/email
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Comprar clorofomio",
+  "content": "5 garrafas de 2l de cloroformio",
+  "emailDeDestinatario": "anddrecosttascheffer@gmail.com"
+}
