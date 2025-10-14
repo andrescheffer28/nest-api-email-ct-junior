@@ -68,3 +68,9 @@ Authorization: Bearer {{authToken}}
 # @name fetch_recent_received_emails
 GET  {{baseUrl}}/my-emails
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_recent_sended_emails
+GET  {{baseUrl}}/sent-emails
+Authorization: Bearer {{authToken}}

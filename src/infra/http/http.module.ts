@@ -15,6 +15,8 @@ import { DeleteEmailController } from "./controllers/delete-email.controller";
 import { DeleteEmailUseCase } from "@/domain/application/use-cases/delete-email";
 import { FetchRecenteReceivedEmailsController } from "./controllers/fetch-recent-received-emails.controller";
 import { FetchRecentReceivedEmailsUseCase } from "@/domain/application/use-cases/fetch-recent-received-emails";
+import { FetchRecenteSendedEmailsController } from "./controllers/fetch-recent-sended-emails.controller";
+import { FetchRecentSendedEmailsUseCase } from "@/domain/application/use-cases/fetch-recent-sended-emails";
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { FetchRecentReceivedEmailsUseCase } from "@/domain/application/use-cases
     SendEmailController,
     DeleteEmailController,
     FetchRecenteReceivedEmailsController,
+    FetchRecenteSendedEmailsController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -38,6 +41,7 @@ import { FetchRecentReceivedEmailsUseCase } from "@/domain/application/use-cases
     SendEmailUseCase,
     DeleteEmailUseCase,
     FetchRecentReceivedEmailsUseCase,
+    FetchRecentSendedEmailsUseCase,
   ]
 })
 export class HTTPModule { }
