@@ -3,13 +3,16 @@ import { makeEmail } from 'test/factories/make-email'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { FetchEmailByIdUseCase } from './fetch-email-by-id'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 
+let inMemoryUserRepository: InMemoryUsersRepository
 let inMemoryEmailsRepository: InMemoryEmailsRepository
 let sut: FetchEmailByIdUseCase
 
 describe('Fetch Email by Id', () => {
   beforeEach(() => {
-    inMemoryEmailsRepository = new InMemoryEmailsRepository();
+    inMemoryUserRepository = new InMemoryUsersRepository();
+    inMemoryEmailsRepository = new InMemoryEmailsRepository(inMemoryUserRepository);
     sut = new FetchEmailByIdUseCase(inMemoryEmailsRepository);
   })
 
