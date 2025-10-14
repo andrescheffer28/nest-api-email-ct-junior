@@ -2,13 +2,13 @@ import { EmailWithSenderReceiverNames } from "@/domain/enterprise/entities/value
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class EmailDetailsPresenterForReceiver {
+export class EmailDetailsPresenterForSender {
 
   static toHTTP(email: EmailWithSenderReceiverNames) {
 
     return {
       title: email.title,
-      enviado_por: email.senderName,
+      enviado_para: email.receiverName,
       jaVisto: email.isSeen,
       email_id: email.id.toString(),
     }

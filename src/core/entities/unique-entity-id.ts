@@ -11,6 +11,22 @@ export class UniqueEntityID {
     return this.value
   }
 
+  public equals(id: UniqueEntityID): boolean {
+    if (id === null || id === undefined) {
+      return false
+    }
+
+    if (!(id instanceof UniqueEntityID)) {
+      return false
+    }
+
+    if (id.toValue() === this.value) {
+      return true
+    }
+
+    return false
+  }
+
   constructor(value?: string) {
     this.value = value ?? randomUUID()
   }

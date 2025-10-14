@@ -3,13 +3,16 @@ import { DeleteEmailUseCase } from './delete-email'
 import { makeEmail } from 'test/factories/make-email'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 
+let inMemoryUserRepository: InMemoryUsersRepository
 let inMemoryEmailsRepository: InMemoryEmailsRepository
 let sut: DeleteEmailUseCase
 
 describe('Delete Email', () => {
   beforeEach(() => {
-    inMemoryEmailsRepository = new InMemoryEmailsRepository()
+    inMemoryUserRepository = new InMemoryUsersRepository()
+    inMemoryEmailsRepository = new InMemoryEmailsRepository(inMemoryUserRepository)
     sut = new DeleteEmailUseCase(inMemoryEmailsRepository)
   })
 

@@ -4,14 +4,14 @@ import { SendEmailUseCase } from './send-email'
 import { makeUser } from 'test/factories/make-user'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
-let inMemoryEmailsRepository: InMemoryEmailsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryEmailsRepository: InMemoryEmailsRepository
 let sut: SendEmailUseCase
 
 describe('Send Email', () => {
   beforeEach(() => {
-    inMemoryEmailsRepository = new InMemoryEmailsRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryEmailsRepository = new InMemoryEmailsRepository(inMemoryUsersRepository)
 
     sut = new SendEmailUseCase(
       inMemoryEmailsRepository,

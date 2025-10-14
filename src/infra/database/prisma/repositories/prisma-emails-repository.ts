@@ -3,6 +3,8 @@ import { Email } from "@/domain/enterprise/entities/email";
 import { Injectable } from "@nestjs/common";
 import { PrismaEmailMapper } from "../mappers/prisma-email-mapper";
 import { PrismaService } from "../prisma.service";
+import { EmailWithSenderReceiverNames } from "@/domain/enterprise/entities/value-objects/email-with-sender-receiver-names";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 
 @Injectable()
 export class PrismaEmailsRepository implements EmailsRepository {
@@ -22,24 +24,44 @@ export class PrismaEmailsRepository implements EmailsRepository {
     return PrismaEmailMapper.toDomain(email)
   }
 
-  async findManyByReceiverId(receiverId: string): Promise<Email[]> {
+  async findManyByReceiverId(receiverId: string): Promise<EmailWithSenderReceiverNames[]> {
     const emails = await this.prisma.email.findMany({
-      where: {
-        receiverId,
-      }
+      where: { receiverId },
+      include: { sender: true, receiver: true },
+      orderBy: { data: 'desc' },
     })
 
-    return emails.map(PrismaEmailMapper.toDomain)
+    return emails.map((email) => EmailWithSenderReceiverNames.create({
+      emailId: new UniqueEntityID(email.id),
+      title: email.title,
+      content: email.content,
+      createdAt: email.data,
+      isSeen: email.isSeen,
+      senderId: new UniqueEntityID(email.senderId),
+      senderName: email.sender.name,
+      receiverId: new UniqueEntityID(email.receiverId),
+      receiverName: email.receiver.name,
+    }))
   }
 
-  async findManyBySenderId(senderId: string): Promise<Email[]> {
+  async findManyBySenderId(senderId: string): Promise<EmailWithSenderReceiverNames[]> {
     const emails = await this.prisma.email.findMany({
-      where: {
-        senderId,
-      }
+      where: { senderId },
+      include: { sender: true, receiver: true },
+      orderBy: { data: 'desc' },
     })
 
-    return emails.map(PrismaEmailMapper.toDomain)
+    return emails.map((email) => EmailWithSenderReceiverNames.create({
+      emailId: new UniqueEntityID(email.id),
+      title: email.title,
+      content: email.content,
+      createdAt: email.data,
+      isSeen: email.isSeen,
+      senderId: new UniqueEntityID(email.senderId),
+      senderName: email.sender.name,
+      receiverId: new UniqueEntityID(email.receiverId),
+      receiverName: email.receiver.name,
+    }))
   }
 
   async create(email: Email): Promise<void> {

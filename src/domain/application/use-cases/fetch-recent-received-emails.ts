@@ -1,6 +1,8 @@
 import { Either, right } from '@/core/either'
 import { Email } from '@/domain/enterprise/entities/email'
 import { EmailsRepository } from '../repositories/emails-repository'
+import { EmailWithSenderReceiverNames } from '@/domain/enterprise/entities/value-objects/email-with-sender-receiver-names'
+import { Injectable } from '@nestjs/common'
 
 interface FetchRecentReceivedEmailsUseCaseRequest {
   receiverId: string
@@ -9,12 +11,13 @@ interface FetchRecentReceivedEmailsUseCaseRequest {
 type FetchRecentReceivedEmailsUseCaseResponse = Either<
   null,
   {
-    emails: Email[]
+    emails: EmailWithSenderReceiverNames[]
   }
 >
 
+@Injectable()
 export class FetchRecentReceivedEmailsUseCase {
-  constructor(private emailsRepository: EmailsRepository) {}
+  constructor(private emailsRepository: EmailsRepository) { }
 
   async execute({
     receiverId,

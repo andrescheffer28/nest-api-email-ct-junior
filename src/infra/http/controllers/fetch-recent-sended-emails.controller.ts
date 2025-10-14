@@ -1,13 +1,14 @@
-import { FetchRecentReceivedEmailsUseCase } from "@/domain/application/use-cases/fetch-recent-received-emails";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { TokenSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Get, HttpCode } from "@nestjs/common";
 import { EmailDetailsPresenterForReceiver } from "../presenters/email-presenter-for-receiver";
+import { FetchRecentSendedEmailsUseCase } from "@/domain/application/use-cases/fetch-recent-sended-emails";
+import { EmailDetailsPresenterForSender } from "../presenters/email-presenter-for-sender";
 
-@Controller('/my-emails')
-export class FetchRecenteReceivedEmailsController {
+@Controller('/sent-emails')
+export class FetchRecenteSendedEmailsController {
   constructor(
-    private fetchRecentReceivedEmails: FetchRecentReceivedEmailsUseCase
+    private fetchRecentSendedEmails: FetchRecentSendedEmailsUseCase
   ) { }
 
   @Get()
@@ -15,8 +16,8 @@ export class FetchRecenteReceivedEmailsController {
   async handle(@CurrentUser() user: TokenSchema) {
     const userId = user.sub
 
-    const result = await this.fetchRecentReceivedEmails.execute({
-      receiverId: userId
+    const result = await this.fetchRecentSendedEmails.execute({
+      senderId: userId
     })
 
     if (!result.value) {
@@ -26,6 +27,6 @@ export class FetchRecenteReceivedEmailsController {
     const emails = result.value.emails
     //const emailsPresenter = emails.map(this.emailDetailsPresenter.toHTTP)
 
-    return emails.map(email => EmailDetailsPresenterForReceiver.toHTTP(email))
+    return emails.map(email => EmailDetailsPresenterForSender.toHTTP(email))
   }
 }
