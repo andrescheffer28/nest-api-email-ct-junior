@@ -18,7 +18,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "fernandopessoa@gmail.com",
+  "email": "anddrecosttascheffer@gmail.com",
   "password": "123456"
 }
 
@@ -52,8 +52,8 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "Frases",
-  "content": "Nao sei quantas almas tenho. Cada momento mudei",
+  "title": "email3",
+  "content": "email3",
   "emailDeDestinatario": "anddrecosttascheffer@gmail.com"
 }
 
@@ -64,3 +64,7 @@ DELETE  {{baseUrl}}/email/ae088d55-c734-4112-9715-ba20c852632a
 Authorization: Bearer {{authToken}}
 
 ###
+
+# @name fetch_recent_received_emails
+GET  {{baseUrl}}/my-emails
+Authorization: Bearer {{authToken}}

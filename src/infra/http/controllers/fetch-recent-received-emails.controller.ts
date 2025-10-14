@@ -2,13 +2,12 @@ import { FetchRecentReceivedEmailsUseCase } from "@/domain/application/use-cases
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { TokenSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Get } from "@nestjs/common";
-import { EmailDetailsPresenter } from "../presenters/email-presenter-for-receiver";
+import { EmailDetailsPresenterForReceiver } from "../presenters/email-presenter-for-receiver";
 
 @Controller('/my-emails')
 export class FetchRecenteReceivedEmailsController {
   constructor(
-    private fetchRecentReceivedEmails: FetchRecentReceivedEmailsUseCase,
-    private emailDetailsPresenter: EmailDetailsPresenter
+    private fetchRecentReceivedEmails: FetchRecentReceivedEmailsUseCase
   ) { }
 
   @Get()
@@ -24,8 +23,8 @@ export class FetchRecenteReceivedEmailsController {
     }
 
     const emails = result.value.emails
-    const emailsPresenter = emails.map(this.emailDetailsPresenter.toHTTP)
+    //const emailsPresenter = emails.map(this.emailDetailsPresenter.toHTTP)
 
-    return { emailsPresenter }
+    return emails.map(email => EmailDetailsPresenterForReceiver.toHTTP(email))
   }
 }
