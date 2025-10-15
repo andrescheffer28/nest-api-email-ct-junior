@@ -18,6 +18,35 @@ export class InMemoryEmailsRepository implements EmailsRepository {
     return email
   }
 
+  async findDetailsById(id: string): Promise<EmailWithSenderReceiverNames | null> {
+    const email = this.items.find((item) => item.id.toString() === id)
+
+    if (!email) {
+      return null
+    }
+
+    const sender = this.usersRepository.items.find((user) => user.id.equals(email.senderId))
+    const receiver = this.usersRepository.items.find((user) => user.id.equals(email.receiverId))
+
+    if (!sender || !receiver) {
+      throw new Error('User not found in memory repository during mapping.')
+    }
+
+    return EmailWithSenderReceiverNames.create({
+      emailId: email.id,
+      title: email.title,
+      content: email.content,
+      createdAt: email.createdAt,
+      isSeen: email.isSeen,
+      senderId: email.senderId,
+      senderName: sender.name,
+      senderEmail: sender.email,
+      receiverId: email.receiverId,
+      receiverName: receiver.name,
+      receiverEmail: receiver.email,
+    })
+  }
+
   async findManyByReceiverId(receiverId: string): Promise<EmailWithSenderReceiverNames[]> {
     const emails = this.items
       .filter((item) => item.receiverId.toString() === receiverId)
@@ -61,8 +90,10 @@ export class InMemoryEmailsRepository implements EmailsRepository {
         isSeen: email.isSeen,
         senderId: email.senderId,
         senderName: sender.name,
+        senderEmail: sender.email,
         receiverId: email.receiverId,
         receiverName: receiver.name,
+        receiverEmail: receiver.email,
       })
     })
   }

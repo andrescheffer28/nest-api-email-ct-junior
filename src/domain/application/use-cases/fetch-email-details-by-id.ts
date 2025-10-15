@@ -1,9 +1,9 @@
 import { Either, left, right } from '@/core/either'
-import { Email } from '@/domain/enterprise/entities/email'
 import { EmailsRepository } from '../repositories/emails-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
+import { EmailWithSenderReceiverNames } from '@/domain/enterprise/entities/value-objects/email-with-sender-receiver-names'
 
 interface FetchEmailByIdUseCaseRequest {
   userId: string
@@ -13,19 +13,19 @@ interface FetchEmailByIdUseCaseRequest {
 type FetchEmailByIdUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
-    email: Email
+    email: EmailWithSenderReceiverNames
   }
 >
 
 @Injectable()
-export class FetchEmailByIdUseCase {
+export class FetchEmailDetailsByIdUseCase {
   constructor(private emailsRepository: EmailsRepository) { }
 
   async execute({
     userId,
     emailId,
   }: FetchEmailByIdUseCaseRequest): Promise<FetchEmailByIdUseCaseResponse> {
-    const email = await this.emailsRepository.findById(emailId)
+    const email = await this.emailsRepository.findDetailsById(emailId)
 
     if (!email) {
       return left(new ResourceNotFoundError())
@@ -36,10 +36,6 @@ export class FetchEmailByIdUseCase {
       email.receiverId.toString() !== userId
     ) {
       return left(new NotAllowedError())
-    }
-
-    if (email.receiverId.toString() === userId) {
-      email.isSeen = true
     }
 
     return right({

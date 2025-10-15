@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name":"Fernando Pessoa",
-  "email": "fernandopessoa@gmail.com",
+  "email": "andrecosttascheffer@gmail.com",
   "password": "123456"
 }
 
@@ -18,7 +18,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "anddrecosttascheffer@gmail.com",
+  "email": "fernandopessoa@gmail.com",
   "password": "123456"
 }
 
@@ -41,7 +41,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "userName": "marcelinho"
+  "userName": "Andre Costa"
 }
 
 ###
@@ -73,4 +73,10 @@ Authorization: Bearer {{authToken}}
 
 # @name fetch_recent_sended_emails
 GET  {{baseUrl}}/sent-emails
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name get_emails_by_id
+GET  {{baseUrl}}/email/d16cd520-c5b1-425a-949e-a48464191cde
 Authorization: Bearer {{authToken}}

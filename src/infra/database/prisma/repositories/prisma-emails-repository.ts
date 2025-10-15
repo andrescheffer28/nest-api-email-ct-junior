@@ -24,6 +24,31 @@ export class PrismaEmailsRepository implements EmailsRepository {
     return PrismaEmailMapper.toDomain(email)
   }
 
+  async findDetailsById(id: string): Promise<EmailWithSenderReceiverNames | null> {
+    const email = await this.prisma.email.findUnique({
+      where: { id },
+      include: { sender: true, receiver: true },
+    })
+
+    if (!email) {
+      return null
+    }
+
+    return EmailWithSenderReceiverNames.create({
+      emailId: new UniqueEntityID(email.id),
+      title: email.title,
+      content: email.content,
+      createdAt: email.data,
+      isSeen: email.isSeen,
+      senderId: new UniqueEntityID(email.senderId),
+      senderName: email.sender.name,
+      senderEmail: email.sender.email,
+      receiverId: new UniqueEntityID(email.receiverId),
+      receiverName: email.receiver.name,
+      receiverEmail: email.receiver.email,
+    })
+  }
+
   async findManyByReceiverId(receiverId: string): Promise<EmailWithSenderReceiverNames[]> {
     const emails = await this.prisma.email.findMany({
       where: { receiverId },
@@ -39,8 +64,10 @@ export class PrismaEmailsRepository implements EmailsRepository {
       isSeen: email.isSeen,
       senderId: new UniqueEntityID(email.senderId),
       senderName: email.sender.name,
+      senderEmail: email.sender.email,
       receiverId: new UniqueEntityID(email.receiverId),
       receiverName: email.receiver.name,
+      receiverEmail: email.receiver.email,
     }))
   }
 
@@ -59,8 +86,10 @@ export class PrismaEmailsRepository implements EmailsRepository {
       isSeen: email.isSeen,
       senderId: new UniqueEntityID(email.senderId),
       senderName: email.sender.name,
+      senderEmail: email.sender.email,
       receiverId: new UniqueEntityID(email.receiverId),
       receiverName: email.receiver.name,
+      receiverEmail: email.receiver.email,
     }))
   }
 

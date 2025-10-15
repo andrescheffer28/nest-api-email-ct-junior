@@ -9,8 +9,10 @@ export interface EmailWithSenderReceiverNamesProps {
   isSeen: boolean,
   senderId: UniqueEntityID,
   senderName: string,
+  senderEmail: string,
   receiverId: UniqueEntityID,
   receiverName: string,
+  receiverEmail: string,
 }
 
 export class EmailWithSenderReceiverNames extends Entity<EmailWithSenderReceiverNamesProps> {
@@ -42,12 +44,20 @@ export class EmailWithSenderReceiverNames extends Entity<EmailWithSenderReceiver
     return this.props.senderName
   }
 
+  get senderEmail() {
+    return this.props.senderEmail
+  }
+
   get receiverId() {
     return this.props.receiverId
   }
 
   get receiverName() {
     return this.props.receiverName
+  }
+
+  get receiverEmail() {
+    return this.props.receiverEmail
   }
 
   static create(props: EmailWithSenderReceiverNamesProps) {
