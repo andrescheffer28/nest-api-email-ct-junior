@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name":"Fernando Pessoa",
-  "email": "andrecosttascheffer@gmail.com",
+  "email": "fernandopessoa@gmail.com",
   "password": "123456"
 }
 
@@ -18,7 +18,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "fernandopessoa@gmail.com",
+  "email": "anddrecosttascheffer@gmail.com",
   "password": "123456"
 }
 
