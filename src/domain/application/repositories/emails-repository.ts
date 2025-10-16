@@ -7,5 +7,6 @@ export abstract class EmailsRepository {
   abstract findManyByReceiverId(receiverId: string): Promise<EmailWithSenderReceiverNames[]>
   abstract findManyBySenderId(senderId: string): Promise<EmailWithSenderReceiverNames[]>
   abstract create(email: Email): Promise<void>
+  abstract save(email: Email): Promise<void>
   abstract delete(email: Email): Promise<void>
 }

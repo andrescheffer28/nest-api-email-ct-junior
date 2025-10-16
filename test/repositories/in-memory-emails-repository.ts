@@ -67,6 +67,14 @@ export class InMemoryEmailsRepository implements EmailsRepository {
     this.items.push(email)
   }
 
+  async save(email: Email): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id.equals(email.id))
+
+    if (itemIndex >= 0) {
+      this.items[itemIndex] = email
+    }
+  }
+
   async delete(email: Email): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === email.id)
 

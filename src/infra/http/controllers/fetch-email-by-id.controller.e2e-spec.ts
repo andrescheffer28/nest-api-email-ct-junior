@@ -6,9 +6,11 @@ import { EmailFactory } from "test/factories/make-email"
 import { UserFactory } from "test/factories/make-user"
 import request from 'supertest'
 import { Test } from "@nestjs/testing"
+import { PrismaService } from "@/infra/database/prisma/prisma.service"
 
 describe('Get email by id (E2E)', () => {
   let app: INestApplication
+  let prisma: PrismaService
   let userFactory: UserFactory
   let emailFactory: EmailFactory
   let jwt: JwtService
@@ -24,6 +26,7 @@ describe('Get email by id (E2E)', () => {
 
     app = moduleRef.createNestApplication()
 
+    prisma = moduleRef.get(PrismaService)
     userFactory = moduleRef.get(UserFactory)
     emailFactory = moduleRef.get(EmailFactory)
     jwt = moduleRef.get(JwtService)
@@ -56,6 +59,12 @@ describe('Get email by id (E2E)', () => {
       .send()
 
     expect(responseSender.statusCode).toBe(200)
+
+    const emailBeforeReceiverRequest = await prisma.email.findUnique({
+      where: { id: email.id.toString() },
+    })
+    expect(emailBeforeReceiverRequest?.isSeen).toBe(false)
+
     expect(responseSender.body).toEqual(
       expect.objectContaining({
         title: 'Email 01',
@@ -69,6 +78,12 @@ describe('Get email by id (E2E)', () => {
       .send()
 
     expect(responseReceiver.statusCode).toBe(200)
+
+    const emailAfterReceiverRequest = await prisma.email.findUnique({
+      where: { id: email.id.toString() },
+    })
+    expect(emailAfterReceiverRequest?.isSeen).toBe(true)
+
     expect(responseReceiver.body).toEqual(
       expect.objectContaining({
         title: 'Email 01',

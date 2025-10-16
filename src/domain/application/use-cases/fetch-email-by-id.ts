@@ -40,6 +40,8 @@ export class FetchEmailByIdUseCase {
 
     if (email.receiverId.toString() === userId) {
       email.isSeen = true
+
+      await this.emailsRepository.save(email)
     }
 
     return right({

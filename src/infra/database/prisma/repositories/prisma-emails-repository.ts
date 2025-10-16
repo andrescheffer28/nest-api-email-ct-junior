@@ -101,6 +101,17 @@ export class PrismaEmailsRepository implements EmailsRepository {
     })
   }
 
+  async save(email: Email): Promise<void> {
+    const data = PrismaEmailMapper.toPrisma(email)
+
+    await this.prisma.email.update({
+      where: {
+        id: email.id.toString(),
+      },
+      data,
+    })
+  }
+
   async delete(email: Email): Promise<void> {
     const data = PrismaEmailMapper.toPrisma(email)
 
