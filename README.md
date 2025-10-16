@@ -27,21 +27,21 @@ A API é responsável por gerenciar usuários, autenticação, envio, recebiment
 
 ## Tecnologias Utilizadas
 
-  - Framework: NestJS
+  - NestJS: Um framework Node.js progressivo para construir aplicações server-side eficientes e escaláveis. Ele utiliza TypeScript por padrão e implementa conceitos de design de software como Injeção de Dependência, tornando o código modular e fácil de testar.
 
-  - Linguagem: TypeScript
+  - Prisma e Prisma Client: Um ORM (Object-Relational Mapper) de nova geração que simplifica o acesso e manipulação do banco de dados, oferecendo tipagem forte.
 
-  - Banco de Dados: PostgreSQL
+  - PostgreSQL: Um sistema de gerenciamento de banco de dados relacional, utilizado para a persistência de todos os dados da aplicação.
 
-  - ORM: Prisma
+  - Docker: Utilizado para containerizar o ambiente do banco de dados PostgreSQL.
 
-  - Containerização: Docker
+  - Zod: Uma biblioteca de declaração e validação de esquemas com foco em TypeScript. É usada para garantir a integridade e o formato correto dos dados recebidos.
 
-  - Testes: Vitest (para testes unitários e E2E)
+  - Bcrypt: Empregado para o hashing seguro de senhas. Antes de salvar a senha de um usuário no banco de dados.
 
-  - Validação: Zod
+  - NestJS JWT e Passport: Módulos do NestJS que facilitam a implementação de autenticação baseada em JSON Web Tokens (JWT). O sistema utiliza um par de chaves assimétricas (RS256) para assinar e verificar os tokens, garantindo que apenas usuários autenticados possam acessar as rotas protegidas.
 
-  - Autenticação: JWT (JSON Web Token) com chaves RS256
+  - Vitest: Um framework de testes unitários e de integração extremamente rápido. Foi utilizado para criar testes unitários para os UseCases e testes End-to-End (E2E) para os Controllers.
 
 ## API Endpoints
 
