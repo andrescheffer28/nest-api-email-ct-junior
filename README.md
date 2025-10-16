@@ -17,7 +17,7 @@ A API é responsável por gerenciar usuários, autenticação, envio, recebiment
 
     *  application/repositories: Define os contratos (classes abstratas) para a persistência de dados, desacoplando o domínio dos detalhes de implementação do banco de dados.
 
-    * infra: Camada responsável pelos detalhes de implementação.
+  * infra: Camada responsável pelos detalhes de implementação.
 
       *  database: Contém a implementação dos repositórios usando Prisma e o banco de dados PostgreSQL.
 
