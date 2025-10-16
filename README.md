@@ -1,7 +1,6 @@
 # Email da CT Junior - Projeto Piloto Back-End
 
-Este projeto, parte do Projeto Piloto TΕΚ da CT Junior, consiste no desenvolvimento do back-end para a aplicação "Email da CT Junior". A aplicação simula um sistema de e-mails com as funcionalidades essenciais de uma rede de comunicação.
-
+Este projeto, consiste no desenvolvimento do back-end para a aplicação "Email da CT Junior". O objetivo é simular um sistema de e-mails.
 A API é responsável por gerenciar usuários, autenticação, envio, recebimento e visualização de e-mails.
 
 ## Arquitetura e Conceitos
@@ -47,25 +46,14 @@ A API é responsável por gerenciar usuários, autenticação, envio, recebiment
 ## API Endpoints
 
  ### Abaixo estão os principais endpoints disponíveis na API. Rotas marcadas como Autenticada exigem um token JWT no cabeçalho Authorization: Bearer <token>.
-Endpoint	        Método	Descrição	                                                          Autenticação
-  - /user	        POST	  Cria um novo usuário.	                                              Pública
-  - /login	      POST	  Autentica um usuário e retorna um access_token.	                    Pública
-  - /my-emails	  GET	    Retorna a lista de e-mails recebidos pelo usuário autenticado.	    Autenticada
-  - /sent-emails	GET	    Retorna a lista de e-mails enviados pelo usuário autenticado.	      Autenticada
-  - /email	      POST	  Envia um novo e-mail para um destinatário.	                        Autenticada
-  - /email/:id	  GET	    Busca os detalhes de um e-mail específico pelo seu ID.	            Autenticada
-  - /email/:id	  DELETE	Deleta um e-mail enviado, caso ainda não tenha sido lido.	          Autenticada
-  - /my-name	    PATCH	  Edita o nome do usuário autenticado.	                              Autenticada
-  - /my-image	    PATCH	  Edita a imagem de perfil do usuário autenticado.	                  Autenticada
-
-- npm i @nestjs/passport
-- npm @nestjs/jwt
-- npm i passport-jwt
-- npm i passport-jwt
-
-- npm i --save-dev vitest unplugin-swc @swc/core @vitest/coverage-v8
-- npm i vite-tsconfig-paths -D
-- npm i dotenv -D
-
-- npm i supertest -D
-- npm i @types/supertest -D
+  |Endpoint	      | Método  |Descrição	                                                          |Autenticação
+  | --------------|---------|---------------------------------------------------------------------|------------------
+  | /user	        |POST	    |Cria um novo usuário.	                                              |Pública
+  | /login	      |POST	    |Autentica um usuário e retorna um access_token.	                    |Pública
+  | /my-emails	  |GET	    |Retorna a lista de e-mails recebidos pelo usuário autenticado.	      |Autenticada
+  | /sent-emails  |GET	    |Retorna a lista de e-mails enviados pelo usuário autenticado.	      |Autenticada
+  | /email	      |POST	    |Envia um novo e-mail para um destinatário.	                          |Autenticada
+  | /email/:id	  |GET	    |Busca os detalhes de um e-mail específico pelo seu ID.	              |Autenticada
+  | /email/:id	  |DELETE	  |Deleta um e-mail enviado, caso ainda não tenha sido lido.	          |Autenticada
+  | /my-name	    |PATCH	  |Edita o nome do usuário autenticado.	                                |Autenticada
+  | /my-image	    |PATCH	  |Edita a imagem de perfil do usuário autenticado.	                    |Autenticada
