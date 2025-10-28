@@ -61,7 +61,7 @@ export class EmailWithSenderReceiverNames extends Entity<EmailWithSenderReceiver
   }
 
   static create(props: EmailWithSenderReceiverNamesProps) {
-    const emailWithSenderReceiverNames = new EmailWithSenderReceiverNames(props)
+    const emailWithSenderReceiverNames = new EmailWithSenderReceiverNames(props, props.emailId)
     return emailWithSenderReceiverNames
   }
 }

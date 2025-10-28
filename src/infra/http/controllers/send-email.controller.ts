@@ -7,7 +7,7 @@ import type { TokenSchema } from "@/infra/auth/jwt.strategy";
 import { ResourceNotFoundError } from "@/domain/application/use-cases/errors/resource-not-found-error";
 
 const sendEmailBodySchema = z.object({
-  title: z.string(),
+  title: z.string().nonempty(),
   emailDeDestinatario: z.email(),
   content: z.string(),
 })

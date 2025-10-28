@@ -7,7 +7,7 @@ import type { TokenSchema } from "@/infra/auth/jwt.strategy"
 import { WrongCredentialsError } from "@/domain/application/use-cases/errors/wrong-credentials-error"
 
 const editUserNameBodySchema = z.object({
-  userName: z.string(),
+  userName: z.string().nonempty(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(editUserNameBodySchema)

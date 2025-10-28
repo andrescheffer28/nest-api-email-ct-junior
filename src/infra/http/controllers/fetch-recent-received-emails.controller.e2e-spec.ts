@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { AppModule } from "@/infra/app.module"
 import { DataBaseModule } from "@/infra/database/database.module"
 import { INestApplication } from "@nestjs/common"
